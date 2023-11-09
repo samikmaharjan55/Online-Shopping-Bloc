@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:online_shopping_bloc/features/cart/ui/cart_screen.dart';
 import 'package:online_shopping_bloc/features/home/bloc/home_bloc.dart';
+import 'package:online_shopping_bloc/features/wishlist/ui/wishlist_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,9 +17,23 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return BlocConsumer<HomeBloc, HomeState>(
       bloc: homeBloc,
-      // listenWhen: (previous, current) {},
-      // buildWhen: (previous, current) {},
-      listener: (context, state) {},
+      listenWhen: (previous, current) => current is HomeActionState,
+      buildWhen: (previous, current) => current is! HomeActionState,
+      listener: (context, state) {
+        if (state is HomeNavigateToCartPageActionState) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const CartScreen(),
+              ));
+        } else if (state is HomeNavigateToWishlistPageActionState) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const WishlistScreen(),
+              ));
+        }
+      },
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
@@ -26,14 +42,14 @@ class _HomeScreenState extends State<HomeScreen> {
             actions: [
               IconButton(
                   onPressed: () {
-                    homeBloc.add(HomeProductWishlistButtonClickedEvent());
+                    homeBloc.add(HomeWishlistButtonNavigateEvent());
                   },
                   icon: const Icon(
                     Icons.favorite_border,
                   )),
               IconButton(
                   onPressed: () {
-                    homeBloc.add(HomeProductCartButtonClickedEvent());
+                    homeBloc.add(HomeCartButtonNavigateEvent());
                   },
                   icon: const Icon(
                     Icons.shopping_cart_outlined,
