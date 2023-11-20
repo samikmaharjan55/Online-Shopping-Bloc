@@ -41,28 +41,51 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       },
       builder: (context, state) {
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text('Grocery'),
-            centerTitle: true,
-            actions: [
-              IconButton(
-                  onPressed: () {
-                    homeBloc.add(HomeWishlistButtonNavigateEvent());
-                  },
-                  icon: const Icon(
-                    Icons.favorite_border,
-                  )),
-              IconButton(
-                  onPressed: () {
-                    homeBloc.add(HomeCartButtonNavigateEvent());
-                  },
-                  icon: const Icon(
-                    Icons.shopping_cart_outlined,
-                  )),
-            ],
-          ),
-        );
+        switch (state.runtimeType) {
+          case HomeLoadingState:
+            return const Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          case HomeLoadedSuccessState:
+            return Scaffold(
+              appBar: AppBar(
+                title: const Text(
+                  'Grocery',
+                  style: TextStyle(color: Colors.white),
+                ),
+                backgroundColor: Colors.teal,
+                centerTitle: true,
+                actions: [
+                  IconButton(
+                      onPressed: () {
+                        homeBloc.add(HomeWishlistButtonNavigateEvent());
+                      },
+                      icon: const Icon(
+                        Icons.favorite_border,
+                        color: Colors.white,
+                      )),
+                  IconButton(
+                      onPressed: () {
+                        homeBloc.add(HomeCartButtonNavigateEvent());
+                      },
+                      icon: const Icon(
+                        Icons.shopping_cart_outlined,
+                        color: Colors.white,
+                      )),
+                ],
+              ),
+            );
+          case HomeErrorState:
+            return const Scaffold(
+              body: Center(
+                child: Text('Error'),
+              ),
+            );
+          default:
+            return const SizedBox();
+        }
       },
     );
   }
