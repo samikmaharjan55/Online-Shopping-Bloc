@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_shopping_bloc/features/cart/ui/cart_screen.dart';
 import 'package:online_shopping_bloc/features/home/bloc/home_bloc.dart';
+import 'package:online_shopping_bloc/features/home/ui/product_tile.dart';
 import 'package:online_shopping_bloc/features/wishlist/ui/wishlist_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -49,6 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             );
           case HomeLoadedSuccessState:
+            final successState = state as HomeLoadedSuccessState;
             return Scaffold(
               appBar: AppBar(
                 title: const Text(
@@ -76,6 +78,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       )),
                 ],
               ),
+              body: ListView.builder(
+                  itemCount: successState.products.length,
+                  itemBuilder: (context, index) {
+                    return ProductTile(
+                      productDataModel: successState.products[index],
+                    );
+                  }),
             );
           case HomeErrorState:
             return const Scaffold(
