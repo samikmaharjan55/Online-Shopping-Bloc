@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:online_shopping_bloc/features/cart/bloc/cart_bloc.dart';
-import 'package:online_shopping_bloc/features/home/bloc/home_bloc.dart';
 import 'package:online_shopping_bloc/features/home/models/home_product_data_model.dart';
 
 class CartTile extends StatelessWidget {
