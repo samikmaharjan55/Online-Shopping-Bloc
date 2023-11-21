@@ -82,6 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemCount: successState.products.length,
                   itemBuilder: (context, index) {
                     return ProductTile(
+                      homeBloc: homeBloc,
                       productDataModel: successState.products[index],
                     );
                   }),
